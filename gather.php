@@ -16,7 +16,6 @@ $digits = $_POST['Digits'];
 $digits = preg_replace("/[^0-9]/", "", $digits);
 
 $redirect = false;
-$sendSms = false;
 
 switch ($digits) {
     case 1:
@@ -40,4 +39,5 @@ header('Content-type: text/xml');
     <?php if ($redirect) { ?>
         <Redirect>voice.php</Redirect>
     <?php } ?>
+    <Sms><?php echo $body; ?></Sms>
 </Response>
