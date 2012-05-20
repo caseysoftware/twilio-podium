@@ -16,21 +16,25 @@ $body = $_POST['Body'];
 $message = '';
 
 if (isset($whitelist[$from])) {
-    $body .= (strlen($body) <= 156) ? ' ~'.$whitelist[$from] : '';
-    $subscribers = get_subscribers();
+    if ($body != '') {
+        $body .= (strlen($body) <= 156) ? ' ~'.$whitelist[$from] : '';
+        $subscribers = get_subscribers();
 
-    $i = 0;
-    $client = new Services_Twilio($AccountSid, $AuthToken);
-    foreach($subscribers as $number) {
+        $i = 0;
+        $client = new Services_Twilio($AccountSid, $AuthToken);
+        foreach($subscribers as $subscriber) {
 
-//    $sms = $client->account->sms_messages->create(
-//            $twilioNumber,
-//$testNumber,
-//            $body
-//    );
-        $i++;
+            $sms = $client->account->sms_messages->create(
+                    $twilioNumber,
+                    $subscriber,
+                    $body
+            );
+            $i++;
+        }
+        $message = "Your message was sent to $i subscribers";
+    } else {
+        $message = "You can't send an empty message to everyone. That's just rude!";
     }
-    $message = "Your message was sent to $i subscribers";
 
 } else {
     $body = strtolower($body);
@@ -42,14 +46,14 @@ if (isset($whitelist[$from])) {
             $message = get_info_message();
         } else {
             subscribe($from);
-            $message = 'Welcome to "podium" the php|tek 2012 text notification system powered by Twilio.';
+            $message = 'You are now opted into "Podium" the php|tek 2012 text notification system powered by Twilio. Send STOP to opt out at any time';
         }
     } else {
         unsubscribe($from);
-        $message = 'You have been opted out. To opt back in, send any message to this number';
+        $message = 'You have been opted out of Podium. To opt back in, send any message to this number';
     }
 }
 
-//header('Content-type: text/xml');
+header('Content-type: text/xml');
 ?>
-<Response><?php echo $message; ?></Response>
+<Response><Sms><?php echo $message; ?></Sms></Response>
