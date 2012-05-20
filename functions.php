@@ -53,6 +53,11 @@ function unsubscribe($phone, $twilioNumber) {
     sendMessage($phone, $twilioNumber, $body);
 }
 
+/*
+ * NOTE: Although we feed the parameters into the function with "to" first and
+ *   "from" second, the sms_messages->create() method takes the "from" first
+ *   and the "to" second.
+ */
 function sendMessage($to, $from, $body) {
     $client = new Services_Twilio($AccountSid, $AuthToken);
     $sms = $client->account->sms_messages->create(

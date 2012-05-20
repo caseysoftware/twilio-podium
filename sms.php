@@ -13,20 +13,16 @@ if (isset($whitelist[$from])) {
         $subscribers = get_subscribers();
 
         $i = 0;
-        $client = new Services_Twilio($AccountSid, $AuthToken);
         foreach($subscribers as $subscriber) {
-
-            $sms = $client->account->sms_messages->create(
-                    $twilioNumber,
-                    $subscriber,
-                    $body
-            );
+            sendMessage($subscriber, $twilioNumber, $body);
             $i++;
         }
-        $message = "Your message was sent to $i subscribers";
+        $body = "Your message was sent to $i subscribers";
     } else {
-        $message = "You can't send an empty message to everyone. That's just rude!";
+        $body = "You can't send an empty message to everyone. That's just rude!";
     }
+    //NOTE: The variable is 'from' but this is who the message is sent *to*
+    sendMessage($from, $twilioNumber, $body);
 
 } else {
     $body = strtolower($body);
