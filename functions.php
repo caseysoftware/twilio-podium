@@ -19,7 +19,7 @@ function is_subscribed($phone) {
 
 function get_subscribers() {
     $subscribers = array();
-    $sql = "SELECT * FROM subscribers WHERE status = 1";
+    $sql = "SELECT DISTINCT(phone) FROM subscribers WHERE status = 1";
     $results = mysql_query($sql);
 
     while ($row = mysql_fetch_assoc($results)) {
@@ -30,12 +30,12 @@ function get_subscribers() {
 }
 
 function subscribe($phone) {
-    $sql = "INSERT INTO subscribers (phone, status) VALUES ('$phone', 1)";
+    $sql = "INSERT INTO subscribers (phone, status, opt_in) VALUES ('$phone', 1, NOW())";
     $result = mysql_query($sql);
 }
 
 function unsubscribe($phone) {
-    $sql = "UPDATE subscribers SET status = 0 WHERE phone = '$phone'";
+    $sql = "UPDATE subscribers SET status = 0, opt_out = NOW() WHERE phone = '$phone'";
     $result = mysql_query($sql);
 }
 
@@ -43,4 +43,7 @@ function get_info_message() {
     //TODO: get timestamp
     //TODO: adjust for timezone
     //TODO: get data for timeslot
+    $message = 'TODO: get_info_message()';
+
+    return $message;
 }
