@@ -1,6 +1,10 @@
 <?php
-$_POST = $_REQUEST;
-
+/*
+ * The creds.php file sets values for these variables:
+ *      $AccountSid, $AuthToken, $whitelist,  $twilioNumber, $testNumber,
+ *      $dbhost, $dbuser, $dbpass, $dbname
+ * There is no business logic or other code within it.
+ */
 include 'creds.php';
 include 'functions.php';
 include 'Services/Twilio.php';
@@ -38,7 +42,7 @@ if (isset($whitelist[$from])) {
             $message = get_info_message();
         } else {
             subscribe($from);
-            $message = 'Welcome to "podium" the php|tek text messaging system powered by Twilio.';
+            $message = 'Welcome to "podium" the php|tek 2012 text notification system powered by Twilio.';
         }
     } else {
         unsubscribe($from);
