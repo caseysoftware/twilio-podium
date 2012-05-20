@@ -1,4 +1,12 @@
 <?php
+/*
+ * The creds.php file sets values for these variables:
+ *      $AccountSid, $AuthToken, $whitelist,  $twilioNumber, $testNumber,
+ *      $dbhost, $dbuser, $dbpass, $dbname
+ * There is no business logic or other code within it.
+ */
+include 'creds.php';
+include 'Services/Twilio.php';
 
 $link = mysql_connect($dbhost, $dbuser, $dbpass);
 if (!$link) {
@@ -29,17 +37,32 @@ function get_subscribers() {
     return $subscribers;
 }
 
-function subscribe($phone) {
+function subscribe($phone, $twilioNumber) {
     $sql = "INSERT INTO subscribers (phone, status, opt_in) VALUES ('$phone', 1, NOW())";
     $result = mysql_query($sql);
+
+    $body = 'You are now opted into "Podium" the php|tek 2012 text notification system powered by Twilio. Send STOP to opt out at any time';
+    sendMessage($phone, $twilioNumber, $body);
 }
 
-function unsubscribe($phone) {
+function unsubscribe($phone, $twilioNumber) {
     $sql = "UPDATE subscribers SET status = 0, opt_out = NOW() WHERE phone = '$phone'";
     $result = mysql_query($sql);
+
+    $body = 'You have been opted out of Podium. To opt back in, send any message to this number';
+    sendMessage($phone, $twilioNumber, $body);
 }
 
-function get_info_message() {
+function sendMessage($to, $from, $body) {
+    $client = new Services_Twilio($AccountSid, $AuthToken);
+    $sms = $client->account->sms_messages->create(
+            $from,
+            $to,
+            $body
+    );
+}
+
+function get_info_message($twilioNumber) {
     //TODO: get timestamp
     //TODO: adjust for timezone
     //TODO: get data for timeslot

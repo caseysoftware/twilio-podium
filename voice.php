@@ -1,13 +1,5 @@
 <?php
-/*
- * The creds.php file sets values for these variables:
- *      $AccountSid, $AuthToken, $whitelist,  $twilioNumber, $testNumber,
- *      $dbhost, $dbuser, $dbpass, $dbname
- * There is no business logic or other code within it.
- */
-include 'creds.php';
 include 'functions.php';
-include 'Services/Twilio.php';
 
 $from = $_POST['From'];
 $from = preg_replace("/[^0-9]/", "", $from);

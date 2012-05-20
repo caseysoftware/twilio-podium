@@ -1,13 +1,5 @@
 <?php
-/*
- * The creds.php file sets values for these variables:
- *      $AccountSid, $AuthToken, $whitelist,  $twilioNumber, $testNumber,
- *      $dbhost, $dbuser, $dbpass, $dbname
- * There is no business logic or other code within it.
- */
-include 'creds.php';
 include 'functions.php';
-include 'Services/Twilio.php';
 
 $from = $_POST['From'];
 $from = preg_replace("/[^0-9]/", "", $from);
@@ -43,17 +35,15 @@ if (isset($whitelist[$from])) {
     $stop = strpos($body, 'stop');
     if ($stop === false) {
         if ($subscribed) {
-            $message = get_info_message();
+            $message = get_info_message($twilioNumber);
         } else {
-            subscribe($from);
-            $message = 'You are now opted into "Podium" the php|tek 2012 text notification system powered by Twilio. Send STOP to opt out at any time';
+            subscribe($from, $twilioNumber);
         }
     } else {
-        unsubscribe($from);
-        $message = 'You have been opted out of Podium. To opt back in, send any message to this number';
+        unsubscribe($from, $twilioNumber);
     }
 }
 
 header('Content-type: text/xml');
 ?>
-<Response><Sms><?php echo $message; ?></Sms></Response>
+<Response />
