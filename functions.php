@@ -19,7 +19,7 @@ if (!$db_selected) {
 }
 
 function is_subscribed($phone) {
-    $sql = "SELECT * FROM subscribers WHERE phone = '$phone'";
+    $sql = "SELECT * FROM subscribers WHERE phone = '$phone' AND status = 1";
     $result = mysql_query($sql);
 
     return mysql_num_rows($result);
@@ -37,15 +37,19 @@ function get_subscribers() {
     return $subscribers;
 }
 
-function subscribe($phone, $twilioNumber) {
+function subscribe($phone) {
+    global $twilioNumber;
+
     $sql = "INSERT INTO subscribers (phone, status, opt_in) VALUES ('$phone', 1, NOW())";
     $result = mysql_query($sql);
 
-    $body = 'You are now opted into "Podium" the php|tek 2012 text notification system powered by Twilio. Send STOP to opt out at any time';
+    $body = 'You are now opted into "Podium" the php tech 2012 text notification system powered by Twilio. Send STOP to opt out at any time';
     sendMessage($phone, $twilioNumber, $body);
 }
 
 function unsubscribe($phone, $twilioNumber) {
+    global $twilioNumber;
+
     $sql = "UPDATE subscribers SET status = 0, opt_out = NOW() WHERE phone = '$phone'";
     $result = mysql_query($sql);
 
@@ -59,6 +63,8 @@ function unsubscribe($phone, $twilioNumber) {
  *   and the "to" second.
  */
 function sendMessage($to, $from, $body) {
+    global $AccountSid, $AuthToken;
+
     $client = new Services_Twilio($AccountSid, $AuthToken);
     $sms = $client->account->sms_messages->create(
             $from,
