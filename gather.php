@@ -12,11 +12,11 @@ $redirect = false;
 switch ($digits) {
     case 1:
         subscribe($from);
-        $message = 'You are now opted into Podium the php|tek 2012 text notification system powered by Twilio.';
+        $message = 'You are now opted into the P H P tech 2012 text notification system powered by Twilio. You will now receive text updates as they become available. Goodbye.';
         break;
     case 9:
         unsubscribe($from);
-        $message = 'You have been opted out of Podium. To opt back in, send any message to this number';
+        $message = 'You have been opted out of P H P tech notification system. To opt back in, send any message to this number. Goodbye.';
         break;
     default:
         $message = "I'm sorry, I didn't understand that option. Let's try again.";
