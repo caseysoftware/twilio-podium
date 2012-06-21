@@ -1,7 +1,10 @@
 twilio-podium
 =============
 
-This is an app designed to make the comms side of a event (like a conference) flow more easily.
+This is an app designed to make the comms side of a event flow more easily.
+
+When you have an event like a conference, you have people all over the place. They could be spread out among different rooms, floors of a building, or even different buildings. If you need to make time-sensitive announcements like events starting, schedule changes, etc email fails because not everyone is checking and wifi might be down. By switching to SMS, you can deliver messages to anyone regardless of where they are or network connectivity. Even with mediocre cellular coverage, messages should get through.
+
 
 The setup is quite simple:
 
@@ -21,5 +24,3 @@ Using the system is even simpler:
 -  To unsubscribe, simple call and follow the instructions or text STOP.
 
 -  Whenever someone with a phone number in the whitelist array sends a message, the sender's initials are appended and the message is rebroadcast to all subscribers.
-
--  
