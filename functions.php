@@ -6,7 +6,8 @@
  * There is no business logic or other code within it.
  */
 include 'creds.php';
-include 'Services/Twilio.php';
+include 'libs/Services/Twilio.php';
+include 'libs/eventbrite.php';
 
 $link = mysql_connect($dbhost, $dbuser, $dbpass);
 if (!$link) {
