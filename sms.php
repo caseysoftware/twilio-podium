@@ -40,6 +40,7 @@ if (isset($whitelist[$from])) {
     }
 }
 
+//TODO: convert to using the proper library response methods
 header('Content-type: text/xml');
 ?>
 <Response />

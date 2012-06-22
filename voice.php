@@ -11,6 +11,7 @@ if ($subscribed) {
     $optmsg = "You are not opted in to receive text updates about P H P tech. Press 1 or send a text to this number to opt in.";
 }
 
+//TODO: convert to using the proper library response methods
 header('Content-type: text/xml');
 ?>
 <Response>

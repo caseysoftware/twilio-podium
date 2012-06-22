@@ -22,6 +22,8 @@ switch ($digits) {
         $message = "I'm sorry, I didn't understand that option. Let's try again.";
         $redirect = true;
 }
+
+//TODO: convert to using the proper library response methods
 header('Content-type: text/xml');
 ?>
 <Response>
