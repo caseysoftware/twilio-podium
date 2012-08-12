@@ -39,22 +39,22 @@ function get_subscribers() {
 }
 
 function subscribe($phone) {
-    global $twilioNumber;
+    global $twilioNumber, $messages;
 
     $sql = "INSERT INTO subscribers (phone, status, opt_in) VALUES ('$phone', 1, NOW())";
     $result = mysql_query($sql);
 
-    $body = 'You are now opted into "Podium" the php tech 2012 text notification system powered by Twilio. Send STOP to opt out at any time';
+    $body = $messages['sms-subscribe'];
     sendMessage($phone, $twilioNumber, $body);
 }
 
 function unsubscribe($phone, $twilioNumber) {
-    global $twilioNumber;
+    global $twilioNumber, $messages;
 
     $sql = "UPDATE subscribers SET status = 0, opt_out = NOW() WHERE phone = '$phone'";
     $result = mysql_query($sql);
 
-    $body = 'You have been opted out of Podium. To opt back in, send any message to this number';
+    $body = $messages['sms-unsubscribe'];
     sendMessage($phone, $twilioNumber, $body);
 }
 
