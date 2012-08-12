@@ -4,53 +4,59 @@ include 'functions.php';
 
 $eventbrite = new Eventbrite(array('user_key' => $ebUserKey, 'app_key' => $ebAppKey));
 
-//TODO: load event list from creds
-//TODO: display event list
-//TODO: pick one event
-/*
- * The above three items are what would eventually replace the $ebEventId variable below
- */
+if((int) $argv[1]) {
+    $ebEventId = $argv[1];
+    $results = $eventbrite->eventListAttendees(array('id' => $ebEventId));
 
-//DONE: retrieve attendees from event
-//DONE: parse attendee list, subscribe each person with a phone number
-//DONE: send welcome message w/ opt out info
+    foreach($results as $attendeeList) {
+        foreach ($attendeeList as $attendees) {
+            foreach ($attendees as $attendee) {
+                $name = trim($attendee['first_name']). ' ' . trim($attendee['last_name']);
+                $phone = (isset($attendee['cell_phone'])) ? $attendee['cell_phone'] : '';
+                $phone = preg_replace("/[^0-9]/", "", $phone );
 
-//$events = $eventbrite->userListEvents();
-$results = $eventbrite->eventListAttendees(array('id' => $ebEventId));
-
-foreach($results as $attendeeList) {
-    foreach ($attendeeList as $attendees) {
-        foreach ($attendees as $attendee) {
-            $name = trim($attendee['first_name']). ' ' . trim($attendee['last_name']);
-            $phone = (isset($attendee['cell_phone'])) ? $attendee['cell_phone'] : '';
-            $phone = preg_replace("/[^0-9]/", "", $phone );
-
-            switch(strlen($phone)) {
-                case 10:
-                    // Most likely we're just missing the +1, so let's add the 1
-                    $phone = '1'.$phone;
-                    break;
-                case 11:
-                    // Most likely we're just missing the +, but it's not necessary, so do nothing
-                    break;
-                default:
-                    // Something is broken, blank out the number so we don't trigger anything:
-                    $phone = '';
-            }
-            
-            if ('' == $phone) {
-                $msg = "No valid cell phone listed for attendee: $name";
-            } else {
-                
-                if (is_subscribed($phone)) {
-                    $msg = "Already subscribed: $name";
-                } else {
-                    $msg = "Now subscribing $phone -- $name";
-                    subscribe($phone);
+                switch(strlen($phone)) {
+                    case 10:
+                        // Most likely we're just missing the +1, so let's add the 1
+                        $phone = '1'.$phone;
+                        break;
+                    case 11:
+                        // Most likely we're just missing the +, but it's not necessary, so do nothing
+                        break;
+                    default:
+                        // Something is broken, blank out the number so we don't trigger anything:
+                        $phone = '';
                 }
+
+                if ('' == $phone) {
+                    $msg = "No valid cell phone listed for attendee: $name";
+                } else {
+
+                    if (is_subscribed($phone)) {
+                        $msg = "Already subscribed: $name";
+                    } else {
+                        $msg = "Now subscribing $phone -- $name";
+                        subscribe($phone);
+                    }
+                }
+
+                echo $msg."\n";
             }
-            
-            echo $msg."\n";
         }
+    }
+} else {
+    $results = $eventbrite->userListEvents();
+
+    foreach($results as $eventList) {
+        echo "Here are the events you may choose from: \n";
+        foreach ($eventList as $events) {
+            foreach ($events as $event) {
+                $strlength = 5 - (int) (strlen($event['title']) / 10);
+                $spacing = str_repeat("\t", $strlength);
+                echo $event['title'] . $spacing . $event['id'] . "\t\t\t" . $event['start_date'] . "\n";
+            }
+        }
+
+        echo "Simply re-run this script with the id of the event you want to import\n";
     }
 }
