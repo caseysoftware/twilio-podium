@@ -24,3 +24,8 @@ Using the system is even simpler:
 -  To unsubscribe, simple call and follow the instructions or text STOP.
 
 -  Whenever someone with a phone number in the whitelist array sends a message, the sender's initials are appended and the message is rebroadcast to all subscribers.
+
+
+Notes:
+
+-  The '+' prefix for all numbers - such as +15125551212 - will always be removed. No compelling reason other than it was an easy regular expression and is not necessary for sending messages.
