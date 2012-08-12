@@ -9,17 +9,20 @@ include 'creds.php';
 include 'libs/Services/Twilio.php';
 include 'libs/eventbrite.php';
 
+
 $link = mysql_connect($dbhost, $dbuser, $dbpass);
 if (!$link) {
-    die('Could not connect: ' . mysql_error());
+    die('Could not connect: ' . mysql_error()."\n");
 }
 
 $db_selected = mysql_select_db($dbname, $link);
 if (!$db_selected) {
-    die ("Can't use $dbname : " . mysql_error());
+    die ("Can't use $dbname : " . mysql_error()."\n");
 }
 
 function is_subscribed($phone) {
+    $phone = preg_replace("/[^0-9]/", "", $phone );
+
     $sql = "SELECT * FROM subscribers WHERE phone = '$phone' AND status = 1";
     $result = mysql_query($sql);
 
@@ -40,6 +43,7 @@ function get_subscribers() {
 
 function subscribe($phone) {
     global $twilioNumber, $messages;
+    $phone = preg_replace("/[^0-9]/", "", $phone );
 
     $sql = "INSERT INTO subscribers (phone, status, opt_in) VALUES ('$phone', 1, NOW())";
     $result = mysql_query($sql);
@@ -50,6 +54,7 @@ function subscribe($phone) {
 
 function unsubscribe($phone, $twilioNumber) {
     global $twilioNumber, $messages;
+    $phone = preg_replace("/[^0-9]/", "", $phone );
 
     $sql = "UPDATE subscribers SET status = 0, opt_out = NOW() WHERE phone = '$phone'";
     $result = mysql_query($sql);
