@@ -79,8 +79,10 @@ class Eventbrite
             $url = "{$this->baseUrl}{$method}?app_key={$this->appKey}";
         }
 
-        foreach ($args[0] as $key => $value) {
-            $url .= "&{$key}={$value}";
+        if (count($args)) {
+            foreach ($args[0] as $key => $value) {
+                $url .= "&{$key}={$value}";
+            }
         }
 
         $hash = md5($url);
