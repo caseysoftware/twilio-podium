@@ -10,6 +10,10 @@
 $AccountSid = 'ACxxxx';
 $AuthToken  = 'abcdef';
 
+$ebUserKey  = '12345';
+$ebAppKey   = 'ABCDE';
+$ebEventId  = '23456';
+
 /*
  * Outbound phone number
  */
