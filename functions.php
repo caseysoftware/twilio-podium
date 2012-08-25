@@ -52,7 +52,7 @@ function subscribe($phone) {
     sendMessage($phone, $twilioNumber, $body);
 }
 
-function unsubscribe($phone, $twilioNumber) {
+function unsubscribe($phone) {
     global $twilioNumber, $messages;
     $phone = preg_replace("/[^0-9]/", "", $phone );
 
