@@ -79,11 +79,48 @@ function sendMessage($to, $from, $body) {
     );
 }
 
-function get_info_message($twilioNumber) {
-    //TODO: get timestamp
-    //TODO: adjust for timezone
-    //TODO: get data for timeslot
-    $message = 'TODO: get_info_message()';
+function get_info_message($keyword) {
+    $hours = date('H');
+    $minutes = date('i');
+    
+    $current_time = 60*$hours + $minutes;
+    if ('prev' == $keyword) {
+        $current_time -= 60;
+    }
+    if ('next' == $keyword) {
+        $current_time += 60;
+    }
 
-    return $message;
+    if($current_time < 420) {
+        return '8:45 Opening Remarks – Cal Evans';
+    }
+    if($current_time >= 420 && $current_time < 480) {
+        return '9am Develop with Purpose – Jon Shearer';
+    }
+    if($current_time >= 480 && $current_time < 540) {
+        return '10:10 Grokking HTTP – Ben Ramsey, Going Deeper w/ jQuery Mobile – Andy Matthews, Concurrent Updates w/o Locks – Robert Bauer';
+    }
+    if($current_time >= 540 && $current_time < 600) {
+        return '11:10 Automated Understanding in the Cloud–Steve Brownlee, Titanium Mobile Development–Andrew McElroy, Data Networking for Devs – Jason Myers';
+    }
+    if($current_time >= 600 && $current_time < 680) {
+        return '12:10 Lunch! Go talk to some sponsors. They\'re awesome and make this whole thing possible.';
+    }
+    if($current_time >= 680 && $current_time < 750) {
+        return '1:30 GUIs Come & Go, CLI is Forever – Brian Dailey, Mobile JS Frameworks 2012 – Lauren OMeara, Tools for Surviving the Zombie Apocalypse – Ian Lee';
+    }
+    if($current_time >= 750 && $current_time < 810) {
+        return '2:30 Getting Results w/ Scrum & Kanban–Brendan Wovchko & Chris Hefley, LESS v SASS–CSS Precompiler Showdown–Kevin Powell, Codetastic P1 of 2–Jim Siegienski';
+    }
+    if($current_time >= 810 && $current_time < 870) {
+        return '3:30 Intro to Erlang – Bryan Hunter, Redis For Fun and Profit – Matt George, Codetastic Part 2 of 2 – Testing needs Seams – Eli Tapolcsanyi';
+    }
+    if($current_time >= 870 && $current_time < 930) {
+        return '4:30 Writing Code That is Easy to Change – Jesse Bunch, ElasticSearch – Andrew Raines, Adventures in Building Our Dream Interface – Tim Moses';
+    }
+    if($current_time >= 930) {
+        return '6pm Tech-Mixer sponsored by Centresource at Nashville Zoo: 3777 Nolensville Pike Nashville, TN 37211';
+    }
+
+    return $current_time.' <- Sorry, there is nothing else on the schedule then!';
 }
