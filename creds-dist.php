@@ -39,6 +39,7 @@ $dbname = 'database-name';
 $messages = array();
 $messages['event']              = 'php|tek 2012';
 $messages['event-phonetic']     = 'P H P tech 2012';
+$messages['sms-help']           = 'This is the text message system for '.$messages['event'].'. Text JOIN to subscribe, NOW, PREVIOUS, or NEXT to navigate the schedule, or STOP to opt out.';
 $messages['sms-subscribe']      = 'You are now opted into "Podium" the '.$messages['event'].' text notification system powered by Twilio. Send STOP to opt out at any time';
 $messages['sms-unsubscribe']    = 'You have been opted out of Podium. To opt back in, send any message to this number';
 
