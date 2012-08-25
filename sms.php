@@ -18,12 +18,9 @@ switch ($keyword) {
         sendMessage($from, $twilioNumber, $messages['sms-help']);
         break;
     case 'prev':
-        
-        break;
     case 'next':
-        break;
     case 'now':
-//TODO: schedule
+        sendMessage($from, $twilioNumber, get_info_message($keyword));
         break;
     case 'join':
         subscribe($from);
@@ -46,7 +43,7 @@ switch ($keyword) {
             //NOTE: The variable is 'from' but this is who the message is sent *to*
             sendMessage($from, $twilioNumber, $body);
         } else {
-            sendMessage($from, $twilioNumber, $messages['sms-help']);
+            sendMessage($from, $twilioNumber, 'Sorry, I didn\t recognize that command. Please try again.');
         }
 }
 
