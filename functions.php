@@ -35,7 +35,7 @@ function get_subscribers() {
     $results = mysql_query($sql);
 
     while ($row = mysql_fetch_assoc($results)) {
-        $subscribers[] = $row['phone'];
+        $subscribers['phone'] = $row['phone'];
     }
 
     return $subscribers;
