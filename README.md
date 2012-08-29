@@ -42,4 +42,6 @@ Wishlist:
 
 -  TODO: Accept incoming messages & generate winners for raffles or prize drawings
 
+-  TODO: Voting for stuff?
+
 -  TODO: Collect stats on the system/traffic
