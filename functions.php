@@ -10,15 +10,12 @@ include 'libs/Services/Twilio.php';
 include 'libs/eventbrite.php';
 
 
-$link = mysql_connect($dbhost, $dbuser, $dbpass);
-if (!$link) {
-    die('Could not connect: ' . mysql_error()."\n");
-}
-
-$db_selected = mysql_select_db($dbname, $link);
-if (!$db_selected) {
-    die ("Can't use $dbname : " . mysql_error()."\n");
-}
+$link = new PDO('sqlite:messaging.sqlite3');
+$link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$link->exec("CREATE TABLE IF NOT EXISTS subscribers (
+                            id INTEGER PRIMARY KEY,
+                            phone TEXT,
+                            status INT(1))");
 
 function is_subscribed($phone) {
     $phone = preg_replace("/[^0-9]/", "", $phone );
@@ -35,7 +32,7 @@ function get_subscribers() {
     $results = mysql_query($sql);
 
     while ($row = mysql_fetch_assoc($results)) {
-        $subscribers['phone'] = $row['phone'];
+        $subscribers[$row['phone']] = $row['phone'];
     }
 
     return $subscribers;
