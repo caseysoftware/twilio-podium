@@ -28,7 +28,7 @@ switch ($keyword) {
     default:
         if (isset($whitelist[$from])) {
             if ($body != '') {
-                $body .= (strlen($body) <= 156) ? ' ~'.$whitelist[$from] : '';
+                $body .= ' ~'.$whitelist[$from];
                 $subscribers = get_subscribers();
 
                 $i = 0;
