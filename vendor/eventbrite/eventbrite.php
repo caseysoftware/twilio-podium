@@ -1,4 +1,9 @@
 <?php
+/**
+ * Class Eventbrite
+ *
+ * Source: https://github.com/shiflett/eventbrite
+ */
 
 class Eventbrite
 {

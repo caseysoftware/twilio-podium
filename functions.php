@@ -6,8 +6,8 @@
  * There is no business logic or other code within it.
  */
 include 'creds.php';
-include 'libs/Services/Twilio.php';
-include 'libs/eventbrite.php';
+include 'vendor/autoload.php';
+include 'vendor/eventbrite/eventbrite.php';
 
 
 $link = new PDO('sqlite:messaging.sqlite3');

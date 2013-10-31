@@ -1,0 +1,22 @@
+{
+    "name": "caseysoftware/twilio-podium",
+    "type": "application",
+    "description": "A SMS-based communications tool for events and attendees",
+    "keywords": ["twilio", "sms", "conference", "events"],
+    "homepage": "https://github.com/caseysoftware/twilio-podium",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Keith Casey",
+            "email": "contrib@caseysoftware.com"
+        }
+    ],
+    "require": {
+        "twilio/sdk": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Services_Twilio": ""
+        }
+    }
+}
