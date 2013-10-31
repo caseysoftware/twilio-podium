@@ -1,5 +1,8 @@
 /nbproject/*
 .DS_Store
 creds.php
-
 messaging.sqlite3
+.idea/*
+vendor/autoload.php
+vendor/composer/*
+vendor/twilio/*
