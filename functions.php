@@ -15,23 +15,27 @@ $link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $link->exec("CREATE TABLE IF NOT EXISTS subscribers (
                             id INTEGER PRIMARY KEY,
                             phone TEXT,
-                            status INT(1))");
+                            status INT(1),
+                            opt_in DATETIME,
+                            opt_out DATETIME)");
 
 function is_subscribed($phone) {
+    global $link;
+
     $phone = preg_replace("/[^0-9]/", "", $phone );
 
     $sql = "SELECT * FROM subscribers WHERE phone = '$phone' AND status = 1";
-    $result = mysql_query($sql);
 
-    return mysql_num_rows($result);
+    return $link->exec($sql);
 }
 
 function get_subscribers() {
+    global $link;
+
     $subscribers = array();
     $sql = "SELECT DISTINCT(phone) FROM subscribers WHERE status = 1";
-    $results = mysql_query($sql);
 
-    while ($row = mysql_fetch_assoc($results)) {
+    foreach ($link->query($sql) as $row) {
         $subscribers[$row['phone']] = $row['phone'];
     }
 
@@ -39,22 +43,23 @@ function get_subscribers() {
 }
 
 function subscribe($phone) {
-    global $twilioNumber, $messages;
+    global $twilioNumber, $messages, $link;
+
     $phone = preg_replace("/[^0-9]/", "", $phone );
 
-    $sql = "INSERT INTO subscribers (phone, status, opt_in) VALUES ('$phone', 1, NOW())";
-    $result = mysql_query($sql);
+    $sql = "INSERT INTO subscribers (phone, status, opt_in) VALUES ('$phone', 1, datetime('now'))";
+    $link->exec($sql);
 
     $body = $messages['sms-subscribe'];
     sendMessage($phone, $twilioNumber, $body);
 }
 
 function unsubscribe($phone) {
-    global $twilioNumber, $messages;
+    global $twilioNumber, $messages, $link;
     $phone = preg_replace("/[^0-9]/", "", $phone );
 
-    $sql = "UPDATE subscribers SET status = 0, opt_out = NOW() WHERE phone = '$phone'";
-    $result = mysql_query($sql);
+    $sql = "UPDATE subscribers SET status = 0, opt_out = datetime('now') WHERE phone = '$phone'";
+    $link->exec($sql);
 
     $body = $messages['sms-unsubscribe'];
     sendMessage($phone, $twilioNumber, $body);
