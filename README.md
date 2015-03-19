@@ -45,6 +45,3 @@ Wishlist:
 -  TODO: Voting for stuff?
 
 -  TODO: Collect stats on the system/traffic
-
-
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/6042982731323d23941a5b887b6de519 "githalytics.com")](http://githalytics.com/caseysoftware/twilio-podium)
